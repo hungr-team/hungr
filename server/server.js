@@ -14,18 +14,14 @@ app.post('/signup', userController.createUser, (req, res) => {
   res.redirect('/settings');
 });
 
-app.post('/signin', userController.verifyUser, (req, res) => {
+app.post('/login', userController.verifyUser, (req, res) => {
   console.log('welcome back');
   res.cookie('username', req.body.username);
-  res.redirect('/');
+  res.status(200).redirect('/');
 });
 
-app.get(['/login', '/signup', '/settings', '/lists'], (req, res) => {
+app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
-});
-
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
 
 /**

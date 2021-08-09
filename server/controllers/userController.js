@@ -4,7 +4,7 @@ const userController = {};
  * createUser - create and save a new User into the database.
  */
 userController.createUser = (req, res, next) => {
-  
+  return next()
 };
 
 /**
@@ -13,7 +13,7 @@ userController.createUser = (req, res, next) => {
  * against the password stored in the database.
  */
 userController.verifyUser = (req, res, next) => {
-
+  return next()
 };
 
 module.exports = userController;
