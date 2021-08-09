@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const userController = require('./controllers/userController');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -12,6 +13,25 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
+
+
+app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+
+/**
+ * 404 handler
+ */
+app.use('*', (req, res) => {
+  res.status(404).send('Not Found');
+});
+
+/**
+ * Global error handler
+ */
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send('Middleware error');
 
 app.use(
   cookieSession({
@@ -31,10 +51,6 @@ const isLoggedIn = (req, res, next) => {
     res.sendStatus(401);
   }
 };
-
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
-});
 
 //oauth related routes with corresponding middleware
 app.get('/failed', (req, res) => res.send('Login failed'));
