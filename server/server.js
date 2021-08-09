@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const userController = require('./controllers/userController');
 
 PORT = 3000;
 
@@ -8,8 +9,38 @@ app.use(express.json());
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
+app.post('/signup', userController.createUser, (req, res) => {
+  console.log('thanks for signing up');
+  res.redirect('/settings');
+});
+
+app.post('/signin', userController.verifyUser, (req, res) => {
+  console.log('welcome back');
+  res.cookie('username', req.body.username);
+  res.redirect('/');
+});
+
+app.get(['/login', '/signup', '/settings', '/lists'], (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
+});
+
+/**
+ * 404 handler
+ */
+app.use('*', (req, res) => {
+  res.status(404).send('Not Found');
+});
+
+/**
+ * Global error handler
+ */
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send('Middleware error');
 });
 
 module.exports = app.listen(PORT, () => {
