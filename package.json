@@ -38,6 +38,7 @@
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.1",
