@@ -9,17 +9,6 @@ app.use(express.json());
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-app.post('/signup', userController.createUser, (req, res) => {
-  console.log('thanks for signing up');
-  res.redirect('/settings');
-});
-
-app.post('/login', userController.verifyUser, (req, res) => {
-  console.log('welcome back');
-  res.cookie('username', req.body.username);
-  res.status(200).redirect('/');
-});
-
 app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
