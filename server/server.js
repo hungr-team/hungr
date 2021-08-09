@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const path = require('path');
 const userController = require('./controllers/userController');
@@ -58,7 +59,7 @@ app.get('/logOut', (req, res) => {
   res.redirect('/');
 });
 
-app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => {
+app.get(['/', '/settings', '/lists'], (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 

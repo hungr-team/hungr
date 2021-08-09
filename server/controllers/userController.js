@@ -63,11 +63,11 @@ userController.getPreferences = (req, res, next) => {
 
 // function to delete all tables
 const dropTables = async () => {
-  await db.query(`DROP TABLE user_food_prefs`);
-  await db.query(`DROP TABLE liked_restaurants`);
-  await db.query(`DROP TABLE blocked_restaurants`);
-  await db.query(`DROP TABLE restaurants`);
-  await db.query(`DROP TABLE food_types`);
-  await db.query(`DROP TABLE users`);
+  await db.query('DROP TABLE user_food_prefs');
+  await db.query('DROP TABLE liked_restaurants');
+  await db.query('DROP TABLE blocked_restaurants');
+  await db.query('DROP TABLE restaurants');
+  await db.query('DROP TABLE food_types');
+  await db.query('DROP TABLE users');
 };
 // dropTables();
