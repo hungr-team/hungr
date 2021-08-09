@@ -2,54 +2,66 @@ const db = require('../models/hungrModel');
 
 const userController = {};
 
-userController.addUser = () => {
+userController.addUser = (req, res, next) => {
   // assuming req.body looks like: {username: 'test', password: 'test'}
+  const queryStr = `INSERT INTO users (username, password) VALUES ('${req.body.username}', '${req.body.password}')`;
+  db.query(queryStr)
+    .then((response) => {
+      console.log('User added to database');
+      return next();
+    })
+    .catch((err) => {
+      console.log('Error in adding user to db: ', err);
+    });
 };
 
-// db.query(
-//   `INSERT INTO users (username, password, radius) VALUES ('${username}', '${password}', ${radius})`
-// )
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => console.log(err));
+// update radius
+userController.updateRadius = (req, res, next) => {};
 
-// inserts dummy data into user_food_prefs
-// db.query(
-//   `INSERT INTO user_food_prefs (user_id, food_type_id) VALUES (${1}, ${4})`
-// )
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => console.log(err));
+// add preferences to user
+userController.addPreferences = async (req, res, next) => {
+  // assuming req.body looks like: {userId: 1, preferences: ['American', 'Chinese']}
+  const userId = req.body.userId;
+  const preferences = req.body.preferences;
+  const foodTypeIdArr = [];
+  try {
+    for (let i = 0; i < preferences.length; i += 1) {
+      const foodTypeQuery = `SELECT _id FROM food_types WHERE food_type='${preferences[i]}'`;
+      const response = await db.query(foodTypeQuery);
+      foodTypeIdArr.push(response.rows[0]._id);
+    }
+    for (let i = 0; i < foodTypeIdArr.length; i += 1) {
+      const insertQuery = `INSERT INTO user_food_prefs (user_id, food_type_id) VALUES (${userId}, ${foodTypeIdArr[i]})`;
+      const insert = await db.query(insertQuery);
+    }
+    // if frontend can send us the food type's code we can delete first loop
+    return next();
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
+};
+// get user's preferences from db
+userController.getPreferences = (req, res, next) => {
+  // assuming they request based off a user's userId
+  // otherwise swap to `...WHERE u.username='${req.body.username}'`
+  const userId = req.body.userId;
+  const queryStr = `SELECT ft.food_type FROM food_types ft INNER JOIN user_food_prefs ufp on ft._id = ufp.food_type_id INNER JOIN users u ON u._id = ufp.user_id WHERE u._id = ${userId}`;
+};
 
-// db.query(
-//   `INSERT INTO user_food_prefs (user_id, food_type_id) VALUES (${1}, ${8})`
-// )
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => console.log(err));
+// add restaurant
 
-// db.query(
-//   `INSERT INTO user_food_prefs (user_id, food_type_id) VALUES (${2}, ${6})`
-// )
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => console.log(err));
+// add restaurant to liked
 
-// db.query(
-//   `INSERT INTO user_food_prefs (user_id, food_type_id) VALUES (${2}, ${3})`
-// )
-//   .then((res) => {
-//     console.log(res);
-//   })
-//   .catch((err) => console.log(err));
+// add restaurant to blocked
 
-// join user and user's preferred food types
-// SELECT ft.food_type FROM food_types ft INNER JOIN user_food_prefs ufp on ft._id = ufp.food_type_id INNER JOIN users u ON u._id = ufp.user_id WHERE u._id = 2
+// remove restaurant from liked
 
+// remove restaurant from blocked
+
+// update user preferences
+
+// function to delete all tables
 const dropTables = async () => {
   await db.query('DROP TABLE user_food_prefs');
   await db.query('DROP TABLE liked_restaurants');
@@ -58,5 +70,4 @@ const dropTables = async () => {
   await db.query('DROP TABLE food_types');
   await db.query('DROP TABLE users');
 };
-
 // dropTables();

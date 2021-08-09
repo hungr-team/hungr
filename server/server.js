@@ -15,10 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-
-
-
-
 app.use(
   cookieSession({
     name: 'hungr',
@@ -70,7 +66,7 @@ app.get(['/', '/settings', '/lists'], (req, res) => {
 /**
  * 404 handler
  */
- app.use('*', (req, res) => {
+app.use('*', (req, res) => {
   res.status(404).send('Not Found');
 });
 
