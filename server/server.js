@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const path = require('path');
 const userController = require('./controllers/userController');
@@ -9,9 +10,7 @@ app.use(express.json());
 
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
-});
+app.get(['/', '/login', '/signup', '/settings', '/lists'], (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 
 /**
  * 404 handler

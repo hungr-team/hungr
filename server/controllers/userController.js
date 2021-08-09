@@ -51,12 +51,12 @@ userController.addUser = () => {
 // SELECT ft.food_type FROM food_types ft INNER JOIN user_food_prefs ufp on ft._id = ufp.food_type_id INNER JOIN users u ON u._id = ufp.user_id WHERE u._id = 2
 
 const dropTables = async () => {
-  await db.query(`DROP TABLE user_food_prefs`);
-  await db.query(`DROP TABLE liked_restaurants`);
-  await db.query(`DROP TABLE blocked_restaurants`);
-  await db.query(`DROP TABLE restaurants`);
-  await db.query(`DROP TABLE food_types`);
-  await db.query(`DROP TABLE users`);
+  await db.query('DROP TABLE user_food_prefs');
+  await db.query('DROP TABLE liked_restaurants');
+  await db.query('DROP TABLE blocked_restaurants');
+  await db.query('DROP TABLE restaurants');
+  await db.query('DROP TABLE food_types');
+  await db.query('DROP TABLE users');
 };
 
 // dropTables();
