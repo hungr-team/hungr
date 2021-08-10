@@ -16,7 +16,19 @@ userController.addUser = (req, res, next) => {
 };
 
 // update radius
-userController.updateRadius = (req, res, next) => {};
+userController.updateRadius = async (req, res, next) => {
+  // assuming req.body looks like: {username: 'jackie', newRadius: 2}
+  const username = req.body.username;
+  const newRadius = req.body.newRadius;
+  const updateQueryStr = `UPDATE users SET radius=${newRadius} WHERE username='${username}'`;
+  try {
+    const updatedRow = await db.query(updateQueryStr);
+    return next();
+  } catch (err) {
+    if (err) console.log(err);
+    return next(err);
+  }
+};
 
 // add preferences to user
 userController.addPreferences = async (req, res, next) => {
@@ -42,12 +54,27 @@ userController.addPreferences = async (req, res, next) => {
   }
 };
 // get user's preferences from db
-userController.getPreferences = (req, res, next) => {
+userController.getPreferences = async (req, res, next) => {
   // assuming they request based off a user's userId
   // otherwise swap to `...WHERE u.username='${req.body.username}'`
-  const userId = req.body.userId;
+  // const userId = req.body.userId;
+  const userId = 1;
   const queryStr = `SELECT ft.food_type FROM food_types ft INNER JOIN user_food_prefs ufp on ft._id = ufp.food_type_id INNER JOIN users u ON u._id = ufp.user_id WHERE u._id = ${userId}`;
+  const userPrefs = [];
+  try {
+    const prefResults = await db.query(queryStr);
+    console.log(prefResults);
+    for (let i = 0; i < prefResults.rows.length; i += 1) {
+      userPrefs.push(prefResults.rows[i].food_type);
+    }
+    res.locals.userPrefs = userPrefs;
+    return next();
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
 };
+// update user preferences
 
 // add restaurant
 
@@ -58,8 +85,6 @@ userController.getPreferences = (req, res, next) => {
 // remove restaurant from liked
 
 // remove restaurant from blocked
-
-// update user preferences
 
 // function to delete all tables
 const dropTables = async () => {

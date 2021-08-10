@@ -13,7 +13,7 @@ CREATE TABLE public.users (
     "_id" serial NOT NULL,
     "username" varchar NOT NULL,
     "password" varchar NOT NULL,
-    "radius" decimal(2,2) DEFAULT 0.5,
+    "radius" bigint DEFAULT 800,
     CONSTRAINT "users_pk" PRIMARY KEY ("_id")
 ) WITH (OIDS=FALSE);
 
