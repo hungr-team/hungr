@@ -7,33 +7,13 @@ import DashboardCard from './DashboardCard.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'space-around',
-    alignItems:'center',
+    height: '90vh',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 }));
-
-const fetchPhoto = ref => {
-  fetch(
-    `https://maps.googleapis.com/maps/api/place/photo?photoreference=${ref}&sensor=false&maxheight=1000&maxwidth=1000&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'no-cors',
-    }
-  )
-    .then(data => data.json())
-    .then(data => {
-      setPhoto(data);
-    })
-    .then()
-    .catch(error => {
-      console.error('Error:', error);
-    });
-};
 
 export default function Dashboard() {
   useEffect(() => {
@@ -52,7 +32,7 @@ export default function Dashboard() {
       longitude = crd.longitude;
 
       fetch(
-        `/place-api?location=${latitude},${longitude}&radius=1500&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs`,
+        `/place-api-nearby?location=${latitude},${longitude}&radius=1500&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs`,
         {
           method: 'GET',
           headers: {
@@ -62,7 +42,6 @@ export default function Dashboard() {
       )
         .then(data => data.json())
         .then(data => {
-          console.log(data)
           //storing array of restaurants in state
           setRestaurants(data.results);
           //fetching using the photo reference
@@ -81,6 +60,18 @@ export default function Dashboard() {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }, []);
 
+  const fetchPhoto = ref => {
+    fetch(
+      `/place-api-photo?photoreference=${ref}&sensor=false&maxheight=1000&maxwidth=1000&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs`
+    )
+      .then(data => {
+        setPhoto(data.url);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
   const classes = useStyles();
 
   const [likes, setLikes] = React.useState(false);
@@ -91,13 +82,19 @@ export default function Dashboard() {
   const handleLikesClick = event => {
     console.log(event.clientX);
     if (event.clientX > window.innerWidth / 2) setLikes(true);
-    fetchPhoto(restaurants[display].photos[0].photo_reference);
+    fetchPhoto(restaurants[display + 1].photos[0].photo_reference);
+    setDisplay(display + 1);
+    console.log(display, photo);
   };
 
   return (
     <Paper className={classes.root} onClick={handleLikesClick}>
       <ThumbDownIcon />
-      <DashboardCard restaurants={restaurants} display={display} />
+      <DashboardCard
+        restaurants={restaurants}
+        display={display}
+        photo={photo}
+      />
       <FavoriteBorderIcon />
     </Paper>
   );

@@ -12,15 +12,22 @@ import { FullscreenExit } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+    width: '80vh',
+    height: '80vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-export default function DashboardCard() {
+export default function DashboardCard({ restaurants, display, photo }) {
   const classes = useStyles();
 
   const [superDislike, setSuperDislike] = React.useState(false);
@@ -29,22 +36,25 @@ export default function DashboardCard() {
     setSuperDislike(!superDislike);
   };
 
+  let title = '';
+
+  if (restaurants[display]) title = restaurants[display].name;
+
   return (
     <Card className={classes.root}>
-      <CardActionArea className={classes.root}>
+      <CardActionArea className={classes.content}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image="https://lh3.googleusercontent.com/places/AAcXr8oTYlLIbpm9brGIOzZSB0oLt_CO3dRujhU02Ox9SqIXExnbw0J-syGIa_khUZPvNOe7kKDJ4zwDUU4-qqzEoMf_cQcbHOhAE78=s1600-w1000-h1000"
-          title="Contemplative Reptile"
+          alt="Rest Photo"
+          image={photo}
+          title="Rest Photo"
         />
-        <CardContent className={classes.root}>
+        <CardContent className={classes.content}>
           <Typography gutterBottom variant="h5" component="h2">
-            Restaurant
+            {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            ratings phone number miles away
+            ratings vicinity miles away
           </Typography>
         </CardContent>
       </CardActionArea>
