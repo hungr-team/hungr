@@ -7,6 +7,8 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 require('./oauth');
+const passportHttp = require('passport-http');
+const logout = require('express-passport-logout');
 
 PORT = 3000;
 
@@ -37,10 +39,16 @@ const isLoggedIn = (req, res, next) => {
 //oauth related routes with corresponding middleware
 app.get('/failed', (req, res) => res.send('Login failed'));
 
-app.get('/loggedIn', isLoggedIn, (req, res) => {
-  console.log(req.locals);
-  return res.send(`Welcome ${req.user.displayName}`);
-});
+app.get(
+  '/loggedIn',
+  isLoggedIn,
+  //userController.findUser,
+  //userController.addUser,
+  (req, res) => {
+    //console.log(req.user);
+    return res.send(`Welcome ${req.user.displayName}`);
+  }
+);
 
 app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
@@ -48,14 +56,16 @@ app.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/failed' }),
   function (req, res) {
+    console.log(req.user.provider);
     res.redirect('/loggedIn');
   }
 );
 
 //direct here to destroy cookies
 app.get('/logOut', (req, res) => {
-  req.session = null;
+  // req.session = null;
   req.logout();
+  delete req.user;
   res.redirect('/');
 });
 

@@ -2,8 +2,41 @@ const db = require('../models/hungrModel');
 
 const userController = {};
 
+userController.findUser = (req, res, next) => {
+  if (req.user.provider === 'google') {
+    // const queryStr = `INSERT INTO users (username, password) VALUES ('${req.body.username}', '${req.body.password}')`;
+    req.body.username = req.user.displayName.replace(/[\s]/, '');
+    req.body.password = req.user.id;
+  } else {
+    return next();
+  }
+
+  let userFound;
+
+  const findUser = `SELECT * FROM users WHERE username = '${req.body.username}'`;
+
+  db.query(findUser)
+    .then(() => {
+      userFound = true;
+      console.log(res);
+      res.locals.userFound = true;
+      return next();
+    })
+    .catch((err) => {
+      console.log('err 14 user controller ', err);
+      res.locals.userFound = false;
+      return next();
+    });
+};
+
 userController.addUser = (req, res, next) => {
+  //find user to check if theyre in database already
+
   // assuming req.body looks like: {username: 'test', password: 'test'}
+  if (res.locals.userFound === true) {
+    return next();
+  }
+
   const queryStr = `INSERT INTO users (username, password) VALUES ('${req.body.username}', '${req.body.password}')`;
   db.query(queryStr)
     .then((response) => {
@@ -71,3 +104,5 @@ const dropTables = async () => {
   await db.query('DROP TABLE users');
 };
 // dropTables();
+
+module.exports = userController;
