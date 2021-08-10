@@ -10,6 +10,11 @@ module.exports = {
     // contentBase: __dirname + '/client/',
     publicPath: '/build/',
     proxy: {
+      '/place-api': {
+        target: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+        changeOrigin: true,
+        pathRewrite: { '^/place-api': '' },
+      },
       '/': {
         target: 'http://localhost:3000',
         secure: false,

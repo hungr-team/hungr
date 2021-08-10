@@ -8,10 +8,15 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import BlockIcon from '@material-ui/icons/Block';
+import { FullscreenExit } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
   },
 });
 
@@ -26,15 +31,15 @@ export default function DashboardCard() {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea className={classes.root}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image="https://lh3.googleusercontent.com/places/AAcXr8oTYlLIbpm9brGIOzZSB0oLt_CO3dRujhU02Ox9SqIXExnbw0J-syGIa_khUZPvNOe7kKDJ4zwDUU4-qqzEoMf_cQcbHOhAE78=s1600-w1000-h1000"
           title="Contemplative Reptile"
         />
-        <CardContent>
+        <CardContent className={classes.root}>
           <Typography gutterBottom variant="h5" component="h2">
             Restaurant
           </Typography>
