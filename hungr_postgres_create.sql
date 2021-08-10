@@ -13,13 +13,14 @@ CREATE TABLE public.users (
     "_id" serial NOT NULL,
     "username" varchar NOT NULL,
     "password" varchar NOT NULL,
-    "radius" decimal(2,2) DEFAULT 0.5,
+    "radius" bigint DEFAULT 4800,
     CONSTRAINT "users_pk" PRIMARY KEY ("_id")
 ) WITH (OIDS=FALSE);
 
 CREATE TABLE public.restaurants (
     "_id" serial NOT NULL,
-    "restaurant" varchar NOT NULL,
+    "name" varchar NOT NULL,
+    "address" varchar NOT NULL,
     CONSTRAINT "restaurants_pk" PRIMARY KEY ("_id")
 ) WITH (OIDS=FALSE);
 
@@ -68,4 +69,4 @@ INSERT INTO public.food_types VALUES (5, 'Japanese');
 INSERT INTO public.food_types VALUES (6, 'Mediterranean');
 INSERT INTO public.food_types VALUES (7, 'Middle Eastern');
 INSERT INTO public.food_types VALUES (8, 'Indian');
-
+INSERT INTO public.food_types VALUES (9, 'Mexican');
