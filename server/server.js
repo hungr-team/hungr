@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const userController = require('./controllers/userController');
+const restaurantController = require('./controllers/restaurantController');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -58,6 +59,78 @@ app.get('/logOut', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+
+app.post(
+  '/updateSettings',
+  userController.updateRadius,
+  userController.addPreferences,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
+
+app.post('/getPreferences', userController.getPreferences, (req, res) => {
+  res.status(200).json(res.locals.userPrefs);
+});
+
+app.post('/getRadius', userController.getRadius, (req, res) => {
+  res.status(200).json(res.locals.userRadius);
+});
+
+app.post(
+  '/updatePreferences',
+  userController.updatePreferences,
+  userController.addPreferences,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
+
+app.post(
+  '/addLike',
+  restaurantController.addRestaurant,
+  restaurantController.addLikedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
+
+app.post('/getLikes', restaurantController.getLikedRestaurants, (req, res) => {
+  res.status(200).json(res.locals.likedRestaurants);
+});
+
+app.post(
+  '/removeLike',
+  restaurantController.removeLikedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
+
+app.post(
+  '/block',
+  restaurantController.addRestaurant,
+  restaurantController.addBlockedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
+
+app.post(
+  '/getBlocks',
+  restaurantController.getBlockedRestaurants,
+  (req, res) => {
+    res.status(200).json(res.locals.blockedRestaurants);
+  }
+);
+
+app.post(
+  '/removeBlock',
+  restaurantController.removeBlockedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 app.get(['/', '/settings', '/lists'], (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
