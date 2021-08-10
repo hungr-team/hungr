@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import SettingsList from "./SettingMenu";
+import HistoryList from "./HistoryList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +50,12 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
+            USER NAME
+          </Typography>
+          <Typography variant="h4" className={classes.title}>
             HUNGR
           </Typography>
+          <HistoryList />
           <SettingsList />
         </Toolbar>
       </AppBar>
