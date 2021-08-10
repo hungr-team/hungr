@@ -1,0 +1,11 @@
+language: node_js
+node_js: 
+  - "node"
+script:
+  - echo '*********BUILD START*********'
+  - echo 'Installing dependencies'
+  - npm install
+  - echo 'Starting server in background'
+  - npm start
+  - echo 'Running tests'
+  - npm run test
