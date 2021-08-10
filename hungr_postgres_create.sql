@@ -19,7 +19,8 @@ CREATE TABLE public.users (
 
 CREATE TABLE public.restaurants (
     "_id" serial NOT NULL,
-    "restaurant" varchar NOT NULL,
+    "name" varchar NOT NULL,
+    "address" varchar NOT NULL,
     CONSTRAINT "restaurants_pk" PRIMARY KEY ("_id")
 ) WITH (OIDS=FALSE);
 
