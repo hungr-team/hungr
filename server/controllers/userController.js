@@ -3,9 +3,10 @@ const db = require('../models/hungrModel');
 const userController = {};
 
 userController.addUser = (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
+  // const username = req.body.username;
+  // const password = req.body.password;
+  const username = 'jackie';
+  const password = 'douglass';
   const queryStr = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
   db.query(queryStr)
     .then((response) => {
@@ -16,6 +17,7 @@ userController.addUser = (req, res, next) => {
       console.log('Error in adding user to db: ', err);
     });
 };
+// userController.addUser();
 
 // get radius
 userController.getRadius = async (req, res, next) => {
