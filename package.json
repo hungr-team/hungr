@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node server/server.js &",
     "build": "NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open \" \"cross-env NODE_ENV=development nodemon ./server/server.js\"",
     "test": "jest --verbose",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/hungr-team/hungr.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hungr-team/hungr/issues"
   },
@@ -51,7 +51,7 @@
     "cookie-session": "^1.4.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
-    "eslint": "^7.32.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

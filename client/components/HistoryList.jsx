@@ -86,9 +86,9 @@ export default function HistoryList() {
                   onKeyDown={handleListKeyDown}
                 >
                   <MenuItem onClick={handleClose}>Like</MenuItem>
-                  <MenuItem onClick={handleClose}>Disklike</MenuItem>
+                  <MenuItem onClick={handleClose}>Dislike</MenuItem>
                   <MenuItem onClick={handleClose}>Favourite</MenuItem>
-                  <MenuItem onClick={handleClose}> Hate</MenuItem>
+                  <MenuItem onClick={handleClose}> Super Dislike</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

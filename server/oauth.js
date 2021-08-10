@@ -2,11 +2,11 @@ const passport = require('passport');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
@@ -18,11 +18,11 @@ passport.use(
       clientSecret: 'd3TW9l082DrgJU1DjI46q4hi',
       callbackURL: 'http://localhost:8080/google/callback',
     },
-    function (accessToken, refreshToken, profile, done) {
+    ((accessToken, refreshToken, profile, done) => {
       console.log(profile);
       return done(null, profile);
-    }
-  )
+    }),
+  ),
 );
 
 module.exports = passport;
