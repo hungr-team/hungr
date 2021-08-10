@@ -1,16 +1,16 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   paper: {
     marginRight: theme.spacing(2),
@@ -35,7 +35,7 @@ export default function MenuListComposition() {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === "Tab") {
+    if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
     }
@@ -63,7 +63,7 @@ export default function MenuListComposition() {
       <div>
         <Button
           ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
+          aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
         >
@@ -81,7 +81,7 @@ export default function MenuListComposition() {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
+                  placement === 'bottom' ? 'center top' : 'center bottom',
               }}
             >
               <Paper>
