@@ -2,10 +2,10 @@ const express = require('express');
 
 const app = express();
 const path = require('path');
-const userController = require('./controllers/userController');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+const userController = require('./controllers/userController');
 require('./oauth');
 const passportHttp = require('passport-http');
 const logout = require('express-passport-logout');
@@ -27,7 +27,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//function validating if users are logged in
+// function validating if users are logged in
 const isLoggedIn = (req, res, next) => {
   if (req.user) {
     next();
@@ -36,7 +36,7 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-//oauth related routes with corresponding middleware
+// oauth related routes with corresponding middleware
 app.get('/failed', (req, res) => res.send('Login failed'));
 
 app.get(
@@ -61,7 +61,7 @@ app.get(
   }
 );
 
-//direct here to destroy cookies
+// direct here to destroy cookies
 app.get('/logOut', (req, res) => {
   // req.session = null;
   req.logout();
@@ -69,9 +69,9 @@ app.get('/logOut', (req, res) => {
   res.redirect('/');
 });
 
-app.get(['/', '/settings', '/lists'], (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
-});
+app.get(['/', '/settings', '/lists'], (req, res) =>
+  res.status(200).sendFile(path.join(__dirname, '../index.html'))
+);
 
 /**
  * 404 handler

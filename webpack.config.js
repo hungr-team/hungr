@@ -20,7 +20,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    // publicPath: '/build/',
+    publicPath: '/build/',
   },
   module: {
     // configuration regarding modules

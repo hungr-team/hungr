@@ -54,8 +54,8 @@ userController.updateRadius = (req, res, next) => {};
 // add preferences to user
 userController.addPreferences = async (req, res, next) => {
   // assuming req.body looks like: {userId: 1, preferences: ['American', 'Chinese']}
-  const userId = req.body.userId;
-  const preferences = req.body.preferences;
+  const { userId } = req.body;
+  const { preferences } = req.body;
   const foodTypeIdArr = [];
   try {
     for (let i = 0; i < preferences.length; i += 1) {
@@ -78,7 +78,7 @@ userController.addPreferences = async (req, res, next) => {
 userController.getPreferences = (req, res, next) => {
   // assuming they request based off a user's userId
   // otherwise swap to `...WHERE u.username='${req.body.username}'`
-  const userId = req.body.userId;
+  const { userId } = req.body;
   const queryStr = `SELECT ft.food_type FROM food_types ft INNER JOIN user_food_prefs ufp on ft._id = ufp.food_type_id INNER JOIN users u ON u._id = ufp.user_id WHERE u._id = ${userId}`;
 };
 
