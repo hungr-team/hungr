@@ -75,6 +75,21 @@ userController.getPreferences = async (req, res, next) => {
   }
 };
 // update user preferences
+userController.updatePreferences = async (req, res, next) => {
+  const username = req.body.username;
+  // delete all rows where username=req.body...
+  const deleteStr = `DELETE FROM user_food_prefs WHERE user_id IN (SELECT users._id FROM users WHERE users.username='${username}')`;
+  try {
+    const deleted = await db.query(deleteStr);
+    // either copy add pref loops here or just add addPrefs to middleware chain and add there
+    return next();
+  } catch (err) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+  }
+};
 
 // add restaurant
 
