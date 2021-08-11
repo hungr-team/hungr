@@ -63,12 +63,16 @@ app.get(
     return next();
   },
   userController.findUser,
-  function (req, res) {
+  function (req, res, next) {
     if (res.locals.userFound) {
+      console.log('user found');
       res.redirect('/');
-    } else {
-      res.redirect('/signUp');
     }
+    next();
+  },
+  userController.addUser,
+  function (req, res) {
+    res.sendFile(path.join(__dirname, '../index.html'));
   }
 );
 
@@ -97,6 +101,18 @@ app.post('/signIn', userController.findUser, (req, res) => {
 app.get('/signUp', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
+
+app.post(
+  '/signUp',
+  userController.findUser,
+  userController.addUser,
+
+  (req, res) => {
+    console.log(req.body);
+    res.json(req.body);
+    //res.redirect('/');
+  }
+);
 
 app.post(
   '/updateSettings',

@@ -168,8 +168,8 @@ export default function SignIn() {
             {status !== '' ? (
               <AlertMessage key={status.key} message={status.msg} />
             ) : null}
-            <h2>
-              <span>or</span>
+            <h2 className='specialH2'>
+              <span className='specialSpan'>or</span>
             </h2>
             <center>
               <Link href='/google'>

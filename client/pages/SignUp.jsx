@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import GoogleButton from 'react-google-button';
+import AlertMessage from '../components/AlertMessage';
+import { useHistory } from 'react-router';
 
 function Copyright() {
   return (
@@ -48,6 +52,44 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+
+  const [usernameValue, setUsernameValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+  const [status, setMessage] = useState('');
+  let history = useHistory();
+
+  const handleSubmit = (e) => {
+    console.log(usernameValue, passwordValue);
+    fetch('/signUp', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: usernameValue,
+        password: passwordValue,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+
+        if (res.error) {
+          setMessage({ msg: res.error, key: Math.random() });
+        } else {
+          history.push('/');
+        }
+        //redirect to front page, with issued cookies
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -90,9 +132,10 @@ export default function SignUp() {
                 required
                 fullWidth
                 id='email'
-                label='Email Address'
+                label='Username'
                 name='email'
                 autoComplete='email'
+                onChange={(e) => setUsernameValue(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,18 +148,33 @@ export default function SignUp() {
                 type='password'
                 id='password'
                 autoComplete='current-password'
+                onChange={(e) => setPasswordValue(e.target.value)}
               />
             </Grid>
           </Grid>
           <Button
-            type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
+
+          <h2 className='specialH2'>
+            <span className='specialSpan'>or</span>
+          </h2>
+          <center>
+            <Link href='/google'>
+              <GoogleButton className={classes.google} />
+            </Link>
+
+            {status !== '' ? (
+              <AlertMessage key={status.key} message={status.msg} />
+            ) : null}
+          </center>
+          <br></br>
           <Grid container justifyContent='flex-end'>
             <Grid item>
               <Link href='/signIn' variant='body2'>

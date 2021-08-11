@@ -1,4 +1,4 @@
-h2 {
+.specialH2 {
   width: 100%;
   text-align: center;
   border-bottom: 1px solid #000;
@@ -6,7 +6,7 @@ h2 {
   margin: 10px 0 20px;
 }
 
-h2 span {
+.specialH2 > span {
   background: #fff;
   padding: 0 10px;
 }
