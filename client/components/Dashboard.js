@@ -65,9 +65,8 @@ export default function Dashboard() {
   const fetchdata = (latitude, longitude) => {
     setDisplay(0);
 
-    let next = `&pagetoken=${next_page_token}`;
     fetch(
-      `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs${next}`,
+      `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs&pagetoken=${next_page_token}`,
       {
         method: 'GET',
         headers: {
@@ -107,7 +106,6 @@ export default function Dashboard() {
 
   const classes = useStyles();
 
-  const [likes, setLikes] = React.useState(false);
   const [blocks, setBlocks] = React.useState([]);
   const [liked, setLiked] = React.useState([]);
   const [restaurants, setRestaurants] = React.useState([]);
@@ -122,7 +120,6 @@ export default function Dashboard() {
     display === 18 ? fetchdata(coords[0], coords[1]) : setDisplay(display + 1);
     //if clicking on right side of screen set likes to true
     if (event.clientX > window.innerWidth / 2) {
-      setLikes(true);
       const name = restaurants[display].name.replace(/'/, '&#39');
       const address = restaurants[display].vicinity.replace(/'/, '&#39');
       const likeFetchParams = {
@@ -143,6 +140,7 @@ export default function Dashboard() {
       console.log('error fetching photo');
     }
   };
+
   useEffect(() => {
     const getBlockedRestaurantsParams = {
       method: 'POST',
