@@ -109,13 +109,16 @@ restaurantController.addBlockedRestaurant = async (req, res, next) => {
 // get blocked list
 restaurantController.getBlockedRestaurants = async (req, res, next) => {
   const username = req.body.username;
-  const getLikesQueryStr = `SELECT r.name FROM blocked_restaurants br INNER JOIN users u ON br.user_id=u._id INNER JOIN restaurants r ON r._id=br.restaurant_id WHERE u.username='${username}'`;
+  const getLikesQueryStr = `SELECT r.name, r.address FROM blocked_restaurants br INNER JOIN users u ON br.user_id=u._id INNER JOIN restaurants r ON r._id=br.restaurant_id WHERE u.username='${username}'`;
   try {
     const blockedRestaurantRows = await db.query(getLikesQueryStr);
     // create new array with just the restaurant names as strings instead of individual objects
     const blockedRestaurants = [];
     for (let i = 0; i < blockedRestaurantRows.rows.length; i += 1) {
-      blockedRestaurants.push(blockedRestaurantRows.rows[i].name);
+      blockedRestaurants.push({
+        name: blockedRestaurantRows.rows[i].name,
+        address: blockedRestaurantRows.rows[i].address,
+      });
     }
     res.locals.blockedRestaurants = blockedRestaurants;
     return next();
@@ -127,6 +130,7 @@ restaurantController.getBlockedRestaurants = async (req, res, next) => {
 
 // remove restaurant from liked
 restaurantController.removeLikedRestaurant = async (req, res, next) => {
+  console.log('Removing liked restaurant: ', req.body);
   const username = req.body.username;
   const restaurant = req.body.restaurantName;
   const deleteQuery = `DELETE FROM liked_restaurants WHERE user_id IN (SELECT users._id FROM users WHERE users.username='${username}') AND restaurant_id IN (SELECT restaurants._id FROM restaurants WHERE restaurants.name='${restaurant}')`;

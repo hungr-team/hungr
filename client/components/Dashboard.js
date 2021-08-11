@@ -130,7 +130,7 @@ export default function Dashboard() {
         headers: { 'Content-Type': 'application/json' },
         // change username to props.username after login
         body: JSON.stringify({
-          username: 'jackie',
+          username: 'testingFavorites',
           restaurantName: name,
           address,
         }),
@@ -147,7 +147,7 @@ export default function Dashboard() {
     const getBlockedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'jackie' }),
+      body: JSON.stringify({ username: 'testingFavorites' }),
     };
     fetch('/getBlocks', getBlockedRestaurantsParams)
       .then((res) => res.json())
@@ -161,7 +161,7 @@ export default function Dashboard() {
     const getLikedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'jackie' }),
+      body: JSON.stringify({ username: 'testingFavorites' }),
     };
     fetch('/getLikes', getLikedRestaurantsParams)
       .then((res) => res.json())

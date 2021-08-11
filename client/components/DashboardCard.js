@@ -46,7 +46,7 @@ export default function DashboardCard({ restaurants, display, photo }) {
       headers: { 'Content-Type': 'application/json' },
       // change username to props.username after login
       body: JSON.stringify({
-        username: 'jackie',
+        username: 'testingFavorites',
         restaurantName: name,
         address,
       }),
