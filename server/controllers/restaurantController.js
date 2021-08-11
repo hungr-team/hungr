@@ -9,8 +9,7 @@ restaurantController.addRestaurant = async (req, res, next) => {
   // only adds if it's not already existing
   const queryStr = `INSERT INTO restaurants (name, address) SELECT DISTINCT '${restaurantName}', '${address}' WHERE '${address}' NOT IN (SELECT address FROM restaurants)`;
   try {
-    const addedRestaurant = await db.query(queryStr);
-    console.log(addedRestaurant);
+    await db.query(queryStr);
     return next();
   } catch (err) {
     console.log(err);
@@ -71,7 +70,7 @@ restaurantController.getLikedRestaurants = async (req, res, next) => {
 // add restaurant to blocked
 restaurantController.addBlockedRestaurant = async (req, res, next) => {
   const username = req.body.username;
-  const restaurant = req.body.restaurant;
+  const restaurant = req.body.restaurantName;
   // do a find to make sure it doesn't already exist
   const testQueryStr = `SELECT br._id FROM blocked_restaurants br INNER JOIN users u ON br.user_id=u._id INNER JOIN restaurants r ON r._id=br.restaurant_id WHERE u.username='${username}' AND r.name='${restaurant}'`;
   try {
@@ -119,7 +118,7 @@ restaurantController.getBlockedRestaurants = async (req, res, next) => {
 // remove restaurant from liked
 restaurantController.removeLikedRestaurant = async (req, res, next) => {
   const username = req.body.username;
-  const restaurant = req.body.restaurant;
+  const restaurant = req.body.restaurantName;
   const deleteQuery = `DELETE FROM liked_restaurants WHERE user_id IN (SELECT users._id FROM users WHERE users.username='${username}') AND restaurant_id IN (SELECT restaurants._id FROM restaurants WHERE restaurants.name='${restaurant}')`;
   try {
     const deleted = await db.query(deleteQuery);
@@ -133,7 +132,7 @@ restaurantController.removeLikedRestaurant = async (req, res, next) => {
 // remove restaurant from blocked
 restaurantController.removeBlockedRestaurant = async (req, res, next) => {
   const username = req.body.username;
-  const restaurant = req.body.restaurant;
+  const restaurant = req.body.restaurantName;
   const deleteQuery = `DELETE FROM blocked_restaurants WHERE user_id IN (SELECT users._id FROM users WHERE users.username='${username}') AND restaurant_id IN (SELECT restaurants._id FROM restaurants WHERE restaurants.name='${restaurant}')`;
   try {
     const deleted = await db.query(deleteQuery);

@@ -24,7 +24,6 @@ userController.getRadius = async (req, res, next) => {
   const getRadiusQueryStr = `SELECT radius FROM users WHERE username='${username}'`;
   try {
     const retrievedRadius = await db.query(getRadiusQueryStr);
-    console.log(retrievedRadius);
     res.locals.userRadius = retrievedRadius.rows[0].radius;
     return next();
   } catch (err) {
