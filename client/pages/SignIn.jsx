@@ -15,7 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GoogleButton from 'react-google-button';
 import '../styles/style.css';
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import AlertMessage from '../components/AlertMessage';
 
 const googleSignIn = {
   paddingBottom: '30px',
@@ -77,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const [emailValue, setEmailValue] = useState('Current');
   const [passwordValue, setPasswordValue] = useState('Current');
-
+  const [status, setMessage] = useState('');
+  let history = useHistory();
   const classes = useStyles();
 
   const handleSubmit = (e) => {
@@ -103,9 +105,10 @@ export default function SignIn() {
       .then((res) => {
         console.log(res);
         if (res === true) {
-          <Redirect to='/' />;
+          history.push('/');
         } else {
           //let user know they fucked up
+          setMessage({ msg: 'Incorrect Login', key: Math.random() });
         }
       })
       .catch((e) => {
@@ -162,6 +165,9 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            {status !== '' ? (
+              <AlertMessage key={status.key} message={status.msg} />
+            ) : null}
             <h2>
               <span>or</span>
             </h2>
@@ -187,9 +193,6 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }
