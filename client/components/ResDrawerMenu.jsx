@@ -13,8 +13,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import VisibleItemList from "../containers/VisibleItemList";
-const drawerWidth = 240;
+// import VisibleItemList from '../containers/VisibleItemList'
+const drawerWidth = 400;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -47,31 +47,28 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
   },
 }));
-function ResponsiveDrawer() {
-  const dummyCategories = [
-    "Hokusai",
-    "Hiroshige",
-    "Utamaro",
-    "Kuniyoshi",
-    "Yoshitoshi",
-  ];
+function ResponsiveDrawer({ menulist, userName }) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
   }
+
   const drawer = (
     <div>
+      <h2>{userName}</h2>
       <List>
-        {dummyCategories.map((text, index) => (
+        {menulist.map((text, index) => (
           <ListItem button key={text}>
-            <ListItemText primary={text} />
+            <ListItemText> {text}</ListItemText>
           </ListItem>
         ))}
       </List>
     </div>
   );
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -86,8 +83,11 @@ function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          {/* <Typography variant="h6" noWrap>
             Responsive drawer
+          </Typography> */}
+          <Typography variant="h5" className={classes.title} align="center">
+            HUNGR
           </Typography>
         </Toolbar>
       </AppBar>
@@ -131,14 +131,10 @@ function ResponsiveDrawer() {
       </nav>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-        <VisibleItemList />
+        {/* <VisibleItemList /> */}
       </div>
     </div>
   );
 }
-ResponsiveDrawer.propTypes = {
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
-};
+
 export default ResponsiveDrawer;
