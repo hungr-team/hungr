@@ -48,6 +48,8 @@ describe('Restaurant Controller', () => {
   };
   const mockRes = { locals: {} };
   const goodMockRestaurant = 'Good Place to Eat';
+  const goodRestAdd = '123 East Street, Nowhere Town, AK';
+  const badRestAdd = '987 West Street, Somewhere Town, KS';
   const badMockRestaurant = 'Bad Place to Eat';
   beforeAll(async () => {
     await userController.addUser(req, mockRes, mockNext);
@@ -69,7 +71,7 @@ describe('Restaurant Controller', () => {
   describe('Adding a new restaurant', () => {
     it('Adds a new restaurant to the database', async () => {
       req.body.restaurantName = goodMockRestaurant;
-      req.body.address = '123 East Street, Nowhere Town, AK';
+      req.body.address = goodRestAdd;
       await restaurantController.addRestaurant(req, mockRes, mockNext);
       const checked = await db.query(
         `SELECT name, address FROM restaurants WHERE name='${req.body.restaurantName}'`
@@ -88,7 +90,10 @@ describe('Restaurant Controller', () => {
     it("Is able to retrieve user's liked list and it's been added to", async () => {
       await restaurantController.getLikedRestaurants(req, mockRes, mockNext);
       expect(mockRes.locals.likedRestaurants).toEqual([
-        `${goodMockRestaurant}`,
+        {
+          name: goodMockRestaurant,
+          address: goodRestAdd,
+        },
       ]);
       expect(mockNext).toHaveBeenCalledTimes(3);
     });
@@ -96,7 +101,7 @@ describe('Restaurant Controller', () => {
   describe('Adding a restaurant to blocked list', () => {
     it("Adds a restaurant to a user's blocked likst", async () => {
       req.body.restaurantName = badMockRestaurant;
-      req.body.address = '987 West Street, Somewhere Town, KS';
+      req.body.address = badRestAdd;
       await restaurantController.addRestaurant(req, mockRes, mockNext);
       await restaurantController.addBlockedRestaurant(req, mockRes, mockNext);
       expect(mockNext).toHaveBeenCalledTimes(5);
@@ -104,7 +109,10 @@ describe('Restaurant Controller', () => {
     it("Is able to retrieve user's blocked list and it's been added to", async () => {
       await restaurantController.getBlockedRestaurants(req, mockRes, mockNext);
       expect(mockRes.locals.blockedRestaurants).toEqual([
-        `${badMockRestaurant}`,
+        {
+          name: badMockRestaurant,
+          address: badRestAdd,
+        },
       ]);
       expect(mockNext).toHaveBeenCalledTimes(6);
     });

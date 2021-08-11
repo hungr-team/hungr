@@ -19,12 +19,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Blocks() {
   const classes = useStyles();
   const [blocks, setBlocks] = useState([]);
+  const [user, setUser] = useState('default user');
+  const [loggedIn, setLogIn] = useState(false);
+
+  useEffect(() => {
+    let cookie = document.cookie;
+    if (cookie) {
+      cookie = cookie.split('=');
+      let name = cookie[1];
+      //name = name.substring(1);
+      console.log(user, name);
+      setUser(name);
+      setLogIn(true);
+    }
+
+    return;
+  }, []);
 
   useEffect(() => {
     const getBlockedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'testingFavorites' }),
+      body: JSON.stringify({ username: user }),
     };
     fetch('/getBlocks', getBlockedRestaurantsParams)
       .then((res) => res.json())
@@ -33,18 +49,12 @@ export default function Blocks() {
         setBlocks(blockedRestaurants);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [user]);
 
   const blockList = blocks.map((restaurant, i) => {
-    // let restaurantName = restaurant.name;
-    // let address = restaurant.address;
-    // if (
-    //   restaurant.name.includes('&#39') ||
-    //   restaurant.address.includes('&#39')
-    // ) {
     const restaurantName = restaurant.name.replace('&#39', `'`);
     const address = restaurant.address.replace('&#39', `'`);
-    // }
+
     return (
       <Grid item xs={12} sm={12} md={12} lg={6}>
         <BlockCard

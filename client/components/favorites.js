@@ -15,12 +15,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Favorites() {
   const classes = useStyles();
   const [likes, setLikes] = useState([]);
+  const [user, setUser] = useState('default user');
+  const [loggedIn, setLogIn] = useState(false);
+
+  useEffect(() => {
+    let cookie = document.cookie;
+    if (cookie) {
+      cookie = cookie.split('=');
+      let name = cookie[1];
+      //name = name.substring(1);
+      console.log(user, name);
+      setUser(name);
+      setLogIn(true);
+    }
+
+    return;
+  }, []);
 
   useEffect(() => {
     const getLikedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'testingFavorites' }),
+      body: JSON.stringify({ username: user }),
     };
     fetch('/getLikes', getLikedRestaurantsParams)
       .then((res) => res.json())
@@ -28,7 +44,7 @@ export default function Favorites() {
         setLikes(likedRestaurants);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [user]);
 
   const favoriteList = likes.map((restaurant, i) => {
     const restaurantName = restaurant.name.replace('&#39', `'`);
