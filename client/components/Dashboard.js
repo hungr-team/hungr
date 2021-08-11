@@ -114,6 +114,8 @@ export default function Dashboard() {
   const [endOfList, setEndOfList] = React.useState(false);
   const [coords, setCoords] = React.useState([0, 0]);
   const [next_page_token, setNext_page_token] = React.useState('');
+  const [loggedIn, setLogIn] = React.useState(false);
+  const [user, setUser] = React.useState('default user');
 
   const handleLikesClick = (event) => {
     //when reaching end of array fetch new page
@@ -127,7 +129,7 @@ export default function Dashboard() {
         headers: { 'Content-Type': 'application/json' },
         // change username to props.username after login
         body: JSON.stringify({
-          username: 'jackie',
+          username: user,
           restaurantName: name,
           address,
         }),
@@ -142,10 +144,24 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    let cookie = document.cookie;
+    if (cookie) {
+      cookie = cookie.split('=');
+      let name = cookie[1];
+      //name = name.substring(1);
+      console.log(user, name);
+      setUser(name);
+      setLogIn(true);
+    }
+
+    return;
+  }, []);
+
+  useEffect(() => {
     const getBlockedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'jackie' }),
+      body: JSON.stringify({ username: user }),
     };
     fetch('/getBlocks', getBlockedRestaurantsParams)
       .then((res) => res.json())
@@ -159,7 +175,7 @@ export default function Dashboard() {
     const getLikedRestaurantsParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'jackie' }),
+      body: JSON.stringify({ username: user }),
     };
     fetch('/getLikes', getLikedRestaurantsParams)
       .then((res) => res.json())
@@ -173,15 +189,6 @@ export default function Dashboard() {
   for (let i = 0; i < liked.length; i += 1) {
     testArr.push(<h1>{liked[i].address}</h1>);
   }
-  // useEffect(() => {
-  //   for (let i = 0; i < restaurants.length; i += 1) {
-  //     const currRestaurant = restaurants[i].name.replace(/[^\w ]/g, '');
-  //     if (blocks.includes(currRestaurant)) {
-  //       console.log('We hit a blocked restaurant', currRestaurant);
-  //       // restaurants.splice(i, 1);
-  //     }
-  //   }
-  // }, [blocks]);
 
   useEffect(() => {
     if (restaurants[display]) {
@@ -205,6 +212,7 @@ export default function Dashboard() {
         restaurants={restaurants}
         display={display}
         photo={photo}
+        username={user}
       />
       <FavoriteIcon fontSize='large' />
     </Paper>

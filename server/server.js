@@ -150,9 +150,13 @@ app.post('/getLikes', restaurantController.getLikedRestaurants, (req, res) => {
   res.status(200).json(res.locals.likedRestaurants);
 });
 
-app.post('/removeLike', restaurantController.removeLikedRestaurant, (req, res) => {
-  res.sendStatus(200);
-});
+app.post(
+  '/removeLike',
+  restaurantController.removeLikedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 app.post(
   '/block',
@@ -163,15 +167,23 @@ app.post(
   }
 );
 
-app.post('/getBlocks', restaurantController.getBlockedRestaurants, (req, res) => {
-  res.status(200).json(res.locals.blockedRestaurants);
-});
+app.post(
+  '/getBlocks',
+  restaurantController.getBlockedRestaurants,
+  (req, res) => {
+    res.status(200).json(res.locals.blockedRestaurants);
+  }
+);
 
-app.post('/removeBlock', restaurantController.removeBlockedRestaurant, (req, res) => {
-  res.sendStatus(200);
-});
+app.post(
+  '/removeBlock',
+  restaurantController.removeBlockedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
-app.get(['/', '/settings', '/lists'], (req, res) =>
+app.get(['/', '/settings', '/lists', '/favorites', '/blocks'], (req, res) =>
   res.status(200).sendFile(path.join(__dirname, '../index.html'))
 );
 

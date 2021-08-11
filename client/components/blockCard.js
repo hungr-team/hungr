@@ -1,10 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Close from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
@@ -28,18 +25,12 @@ const useStyles = makeStyles({
     // height: '10vh',
   },
 });
-export default function FavoriteCard({
-  name,
-  address,
-  likes,
-  setLikes,
-  index,
-}) {
+export default function BlockCard({ name, address, blocks, setBlocks, index }) {
   const classes = useStyles();
 
-  const handleRemoveLike = () => {
+  const handleRemoveBlock = () => {
     const replacedName = name.replace(/'/, '&#39');
-    const removeLikeParams = {
+    const removeBlockParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,12 +38,12 @@ export default function FavoriteCard({
         restaurantName: replacedName,
       }),
     };
-    fetch('/removeLike', removeLikeParams)
+    fetch('/removeBlock', removeBlockParams)
       .then((res) => res.json())
       .catch((err) => console.error(err));
-    const newLikes = [...likes];
-    newLikes.splice(index, 1);
-    setLikes(newLikes);
+    const newBlocks = [...blocks];
+    newBlocks.splice(index, 1);
+    setBlocks(newBlocks);
   };
 
   return (
@@ -60,9 +51,9 @@ export default function FavoriteCard({
       <CardContent className={classes.content}>
         <Typography variant='h4'>{name}</Typography>
         <Typography variant='body1'>{address}</Typography>
-        <Button size='small' color='secondary' onClick={handleRemoveLike}>
+        <Button size='small' color='secondary' onClick={handleRemoveBlock}>
           <Close />
-          Remove From Favorites
+          Remove From Blocked
         </Button>
       </CardContent>
     </Card>
