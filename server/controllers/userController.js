@@ -2,20 +2,19 @@ const db = require('../models/hungrModel');
 
 const userController = {};
 
-userController.addUser = (req, res, next) => {
-  // const username = req.body.username;
-  // const password = req.body.password;
-  const username = 'jackie';
-  const password = 'douglass';
-  const queryStr = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
-  db.query(queryStr)
-    .then((response) => {
-      console.log('User added to database');
-      return next();
-    })
-    .catch((err) => {
-      console.log('Error in adding user to db: ', err);
-    });
+userController.addUser = async (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  // const username = 'jackie';
+  // const password = 'douglass';
+  const queryStr = `INSERT INTO users (username, password) SELECT DISTINCT '${username}', '${password}' WHERE '${username}' NOT IN (SELECT username FROM users)`;
+  try {
+    await db.query(queryStr);
+    return next();
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
 };
 // userController.addUser();
 
@@ -25,7 +24,6 @@ userController.getRadius = async (req, res, next) => {
   const getRadiusQueryStr = `SELECT radius FROM users WHERE username='${username}'`;
   try {
     const retrievedRadius = await db.query(getRadiusQueryStr);
-    console.log(retrievedRadius);
     res.locals.userRadius = retrievedRadius.rows[0].radius;
     return next();
   } catch (err) {

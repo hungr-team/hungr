@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/hungr-team/hungr#readme",
   "dependencies": {
+    "@jest/globals": "^27.0.6",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "cors": "^2.8.5",
