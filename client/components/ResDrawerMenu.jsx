@@ -1,26 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 // import VisibleItemList from '../containers/VisibleItemList'
 const drawerWidth = 400;
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   toolbar: theme.mixins.toolbar,
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   closeMenuButton: {
-    marginRight: "auto",
+    marginRight: 'auto',
     marginLeft: 0,
   },
 }));
@@ -72,12 +73,12 @@ function ResponsiveDrawer({ menulist, userName }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            edge="start"
+            color='inherit'
+            aria-label='Open drawer'
+            edge='start'
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
@@ -86,7 +87,7 @@ function ResponsiveDrawer({ menulist, userName }) {
           {/* <Typography variant="h6" noWrap>
             Responsive drawer
           </Typography> */}
-          <Typography variant="h5" className={classes.title} align="center">
+          <Typography variant='h5' className={classes.title} align='center'>
             HUNGR
           </Typography>
         </Toolbar>
@@ -94,10 +95,10 @@ function ResponsiveDrawer({ menulist, userName }) {
 
       <nav className={classes.drawer}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
+        <Hidden smUp implementation='css'>
           <Drawer
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
+            variant='temporary'
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -107,19 +108,16 @@ function ResponsiveDrawer({ menulist, userName }) {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <IconButton
-              onClick={handleDrawerToggle}
-              className={classes.closeMenuButton}
-            >
+            <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
               <CloseIcon />
             </IconButton>
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden xsDown implementation='css'>
           <Drawer
             className={classes.drawer}
-            variant="permanent"
+            variant='permanent'
             classes={{
               paper: classes.drawerPaper,
             }}

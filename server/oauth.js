@@ -18,11 +18,11 @@ passport.use(
       clientSecret: 'd3TW9l082DrgJU1DjI46q4hi',
       callbackURL: 'http://localhost:8080/google/callback',
     },
-    ((accessToken, refreshToken, profile, done) => {
+    (accessToken, refreshToken, profile, done) => {
       console.log(profile);
       return done(null, profile);
-    }),
-  ),
+    }
+  )
 );
 
 module.exports = passport;
