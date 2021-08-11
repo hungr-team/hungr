@@ -9,8 +9,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import BlockIcon from '@material-ui/icons/Block';
 import Rating from '@material-ui/lab/Rating';
-import Box from '@material-ui/core/Box';
-import { ContactsOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -52,19 +50,17 @@ export default function DashboardCard({ restaurants, display, photo }) {
       }),
     };
     fetch('/block', blockFetchParams)
-      .then((res) => res.json())
-      .catch((err) => console.error(err));
+      .then(res => res.json())
+      .catch(err => console.error(err));
     setSuperDislike(!superDislike);
   };
 
   let name = '';
-  let rating;
   let vicinity;
 
   if (restaurants[display]) {
-    [name, rating, vicinity] = [
+    [name, vicinity] = [
       restaurants[display].name,
-      restaurants[display].rating,
       restaurants[display].vicinity,
     ];
     if (stars !== restaurants[display].rating)
@@ -85,9 +81,7 @@ export default function DashboardCard({ restaurants, display, photo }) {
           <Typography gutterBottom variant='h5' component='h2'>
             {name}
           </Typography>
-          <Box component='fieldset' mb={3} borderColor='transparent'>
-            <Rating name='simple-controlled' value={stars} precision={0.25} />
-          </Box>
+          <Rating name='simple-controlled' value={stars} precision={0.25} />
           <Typography variant='body2' color='textSecondary' component='p'>
             {vicinity}
           </Typography>
