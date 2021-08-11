@@ -42,10 +42,10 @@ const isLoggedIn = (req, res, next) => {
 // oauth related routes with corresponding middleware
 app.get('/failed', (req, res) => res.send('Login failed'));
 
-app.get('/loggedIn', isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.send(`Welcome ${req.user.displayName}`);
-});
+// app.get('/loggedIn', isLoggedIn, (req, res) => {
+//   console.log(req.user);
+//   res.send(`Welcome ${req.user.displayName}`);
+// });
 
 app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
