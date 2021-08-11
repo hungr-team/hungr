@@ -82,7 +82,7 @@ export default function SignUp() {
         if (res.error) {
           setMessage({ msg: res.error, key: Math.random() });
         } else {
-          history.push('/');
+          history.push('/dashboard');
         }
         //redirect to front page, with issued cookies
       })
@@ -177,7 +177,7 @@ export default function SignUp() {
           <br></br>
           <Grid container justifyContent='flex-end'>
             <Grid item>
-              <Link href='/signIn' variant='body2'>
+              <Link href='/' variant='body2'>
                 Already have an account? Sign in
               </Link>
             </Grid>

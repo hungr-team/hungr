@@ -9,11 +9,11 @@ import SignUp from './pages/SignUp';
 const App = () => (
   <Router>
     <Switch>
-      <Route exact path='/' component={MainPage} />
+      <Route exact path='/' component={SignIn} />
       <Route path='/favorites' component={FavoritesPage} />
       <Route path='/blocks' component={BlockedPage} />
       <Route path='/signUp' component={SignUp} />
-      <Route path='/signIn' component={SignIn} />
+      <Route path='/dashboard' component={MainPage} />
       {/* <Route path="/signup">
               <SignUp />
             </Route> */}
