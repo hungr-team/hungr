@@ -5,7 +5,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import DashboardCard from './DashboardCard.js';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '90vh',
     display: 'flex',
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //Fisher-Yates (aka Knuth) Shuffle
-const shuffle = array => {
+const shuffle = (array) => {
   let currentIndex = array.length,
     randomIndex;
 
@@ -47,7 +47,7 @@ export default function Dashboard() {
       maximumAge: 0,
     };
 
-    const success = pos => {
+    const success = (pos) => {
       const crd = pos.coords;
       latitude = crd.latitude;
       longitude = crd.longitude;
@@ -55,7 +55,7 @@ export default function Dashboard() {
       fetchdata(latitude, longitude);
     };
 
-    const error = err => {
+    const error = (err) => {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     };
 
@@ -64,7 +64,7 @@ export default function Dashboard() {
 
   const fetchdata = (latitude, longitude) => {
     setDisplay(0);
-    
+
     let next = `&pagetoken=${next_page_token}`;
     fetch(
       `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs${next}`,
@@ -75,8 +75,8 @@ export default function Dashboard() {
         },
       }
     )
-      .then(data => data.json())
-      .then(data => {
+      .then((data) => data.json())
+      .then((data) => {
         //shuffling 20 arrays of restaurants and storing them in restaurants state
         const shuffledRestaurants = shuffle(data.results);
         setRestaurants(shuffledRestaurants);
@@ -88,19 +88,19 @@ export default function Dashboard() {
           : setEndOfList(true);
       })
       .then()
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       });
   };
 
-  const fetchPhoto = ref => {
+  const fetchPhoto = (ref) => {
     fetch(
       `/place-api-photo?photoreference=${ref}&sensor=false&maxheight=1000&maxwidth=1000&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs`
     )
-      .then(data => {
+      .then((data) => {
         setPhoto(data.url);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       });
   };
@@ -108,6 +108,8 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const [likes, setLikes] = React.useState(false);
+  const [blocks, setBlocks] = React.useState([]);
+  const [liked, setLiked] = React.useState([]);
   const [restaurants, setRestaurants] = React.useState([]);
   const [display, setDisplay] = React.useState(0);
   const [photo, setPhoto] = React.useState('');
@@ -115,27 +117,98 @@ export default function Dashboard() {
   const [coords, setCoords] = React.useState([0, 0]);
   const [next_page_token, setNext_page_token] = React.useState('');
 
-  const handleLikesClick = event => {
+  const handleLikesClick = (event) => {
     //when reaching end of array fetch new page
     display === 18 ? fetchdata(coords[0], coords[1]) : setDisplay(display + 1);
     //if clicking on right side of screen set likes to true
-    if (event.clientX > window.innerWidth / 2) setLikes(true);
+    if (event.clientX > window.innerWidth / 2) {
+      setLikes(true);
+      const name = restaurants[display].name.replace(/'/, '&#39');
+      const address = restaurants[display].vicinity.replace(/'/, '&#39');
+      const likeFetchParams = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // change username to props.username after login
+        body: JSON.stringify({
+          username: 'jackie',
+          restaurantName: name,
+          address,
+        }),
+      };
+      fetch('/addLike', likeFetchParams);
+    }
     try {
       fetchPhoto(restaurants[display + 1].photos[0].photo_reference);
     } catch (error) {
       console.log('error fetching photo');
     }
   };
+  useEffect(() => {
+    const getBlockedRestaurantsParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'jackie' }),
+    };
+    fetch('/getBlocks', getBlockedRestaurantsParams)
+      .then((res) => res.json())
+      .then((blockedRestaurants) => {
+        setBlocks(blockedRestaurants);
+      })
+      .catch((err) => console.error(err));
+  }, [restaurants]);
+
+  useEffect(() => {
+    const getLikedRestaurantsParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'jackie' }),
+    };
+    fetch('/getLikes', getLikedRestaurantsParams)
+      .then((res) => res.json())
+      .then((likedRestaurants) => {
+        setLiked(likedRestaurants);
+      })
+      .catch((err) => console.error(err));
+  }, [restaurants]);
+
+  const testArr = [];
+  for (let i = 0; i < liked.length; i += 1) {
+    testArr.push(<h1>{liked[i].address}</h1>);
+  }
+  // useEffect(() => {
+  //   for (let i = 0; i < restaurants.length; i += 1) {
+  //     const currRestaurant = restaurants[i].name.replace(/[^\w ]/g, '');
+  //     if (blocks.includes(currRestaurant)) {
+  //       console.log('We hit a blocked restaurant', currRestaurant);
+  //       // restaurants.splice(i, 1);
+  //     }
+  //   }
+  // }, [blocks]);
+
+  useEffect(() => {
+    if (restaurants[display]) {
+      console.log(restaurants[display].name);
+      const name = restaurants[display].name.replace(/'/, '&#39');
+      if (blocks.includes(name)) {
+        setDisplay(display + 1);
+        try {
+          fetchPhoto(restaurants[display + 1].photos[0].photo_reference);
+        } catch (error) {
+          console.log('error fetching photo');
+        }
+      }
+    }
+  }, [display]);
 
   return (
     <Paper className={classes.root} onClick={handleLikesClick}>
-      <ThumbDownIcon fontSize="large" />
+      <ThumbDownIcon fontSize='large' />
       <DashboardCard
         restaurants={restaurants}
         display={display}
         photo={photo}
       />
-      <FavoriteBorderIcon fontSize="large" />
+      <FavoriteBorderIcon fontSize='large' />
     </Paper>
   );
 }
