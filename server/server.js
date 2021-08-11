@@ -42,8 +42,7 @@ app.get('/failed', (req, res) => res.send('Login failed'));
 app.get(
   '/loggedIn',
   isLoggedIn,
-  //userController.findUser,
-  //userController.addUser,
+
   (req, res) => {
     //console.log(req.user);
     return res.send(`Welcome ${req.user.displayName}`);
@@ -54,19 +53,36 @@ app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
 app.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/failed' }),
+  passport.authenticate('google', { failureRedirect: '/signIn' }),
   function (req, res) {
     console.log(req.user.provider);
-    res.redirect('/loggedIn');
+    res.redirect('/');
   }
 );
 
 // direct here to destroy cookies
 app.get('/logOut', (req, res) => {
   // req.session = null;
-  req.logout();
   delete req.user;
-  res.redirect('/');
+  req.logout();
+
+  res.redirect('/signIn');
+});
+
+//userController.findUser,
+//userController.addUser,
+
+app.get('/signIn', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.post('/signIn', userController.findUser, (req, res) => {
+  console.log('80 ', res.locals.userFound);
+  res.status(200).json(res.locals.userFound);
+});
+
+app.get('/signUp', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 
 app.get(['/', '/settings', '/lists'], (req, res) =>

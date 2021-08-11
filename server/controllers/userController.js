@@ -3,27 +3,26 @@ const db = require('../models/hungrModel');
 const userController = {};
 
 userController.findUser = (req, res, next) => {
-  if (req.user.provider === 'google') {
-    // const queryStr = `INSERT INTO users (username, password) VALUES ('${req.body.username}', '${req.body.password}')`;
-    req.body.username = req.user.displayName.replace(/[\s]/, '');
-    req.body.password = req.user.id;
-  } else {
-    return next();
-  }
+  // if (req.user.provider === 'google' ) {
+  //   // const queryStr = `INSERT INTO users (username, password) VALUES ('${req.body.username}', '${req.body.password}')`;
+  //   req.body.username = req.user.displayName.replace(/[\s]/, '');
+  //   req.body.password = req.user.id;
+  // }
 
-  let userFound;
-
-  const findUser = `SELECT * FROM users WHERE username = '${req.body.username}'`;
-
+  const findUser = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
+  //const findUser = `SELECT * FROM users WHERE username = 'jackie'`;
+  res.locals.userFound = false;
   db.query(findUser)
-    .then(() => {
+    .then((result) => {
       userFound = true;
-      console.log(res);
-      res.locals.userFound = true;
+      console.log('20 ', result.rows);
+      if (result.rows.length > 0) {
+        res.locals.userFound = true;
+      }
       return next();
     })
     .catch((err) => {
-      console.log('err 14 user controller ', err);
+      console.log('24 err 14 user controller ', err);
       res.locals.userFound = false;
       return next();
     });

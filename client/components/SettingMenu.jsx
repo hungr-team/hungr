@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,11 +58,11 @@ export default function SettingsList() {
       <Button
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         onClick={handleToggle}
         style={{ color: 'white' }}
       >
-        <Typography variant="h6"> Settings</Typography>
+        <Typography variant='h6'> Settings</Typography>
       </Button>
       <Popper
         open={open}
@@ -74,19 +75,21 @@ export default function SettingsList() {
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom',
+              transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
-                  id="menu-list-grow"
+                  id='menu-list-grow'
                   onKeyDown={handleListKeyDown}
                 >
                   <MenuItem onClick={handleClose}>Radius</MenuItem>
                   <MenuItem onClick={handleClose}>Food Types</MenuItem>
+                  <MenuItem>
+                    <Link href='/logOut'>Log Out</Link>
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
