@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ResponsiveDrawer from "./ResDrawerMenu";
+// import ResponsiveDrawer from "./ResDrawerMenu";
 import Slider from "./SliderRadius";
-
+import PersistentDrawerLeft from "./PerDrawer";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,11 +37,11 @@ const NavBar = () => {
       .then((data) => console.log("DATAAA", data));
   }, []);
 
-  const menuItems = ["Like", "Dislike", <Slider />, "Log Out"];
+  const menuItems = ["Favourite", "Dislike", <Slider />, "Log Out"];
 
   return (
     <div>
-      <ResponsiveDrawer menulist={menuItems} userName={user} />
+      <PersistentDrawerLeft menulist={menuItems} userName={user} />
     </div>
   );
 };

@@ -16,20 +16,42 @@ function valuetext(value) {
 export default function DiscreteSlider() {
   const classes = useStyles();
 
+  //update Radius Request
+
+  const updateRadius = (val) => {
+    const radius = val;
+   
+    fetch("http://localhost:3000/updateSettings", {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username:"Theingi Deva", radius}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-small-steps" gutterBottom>
-        Radius In Steps
+        Radius In Miles
       </Typography>
       <Slider
-        defaultValue={0.00000005}
+        defaultValue={0}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider-small-steps"
-        step={0.00000001}
+        step={1}
         marks
-        min={-0.00000005}
-        max={0.0000001}
+        min={0}
+        max={20}
         valueLabelDisplay="auto"
+        getAriaValueText={(value) => updateRadius(value)}
       />
     </div>
   );

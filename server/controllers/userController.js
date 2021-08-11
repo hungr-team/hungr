@@ -36,6 +36,7 @@ userController.getRadius = async (req, res, next) => {
 userController.updateRadius = async (req, res, next) => {
   const username = req.body.username;
   const radius = req.body.radius;
+  console.log({username,radius});
   const updateQueryStr = `UPDATE users SET radius=${radius} WHERE username='${username}'`;
   try {
     const updatedRow = await db.query(updateQueryStr);
