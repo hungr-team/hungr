@@ -8,7 +8,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import BlockIcon from '@material-ui/icons/Block';
-import { FullscreenExit } from '@material-ui/icons';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+import { ContactsOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -25,33 +27,39 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  media: {
+    height: '50vh',
+  },
 });
 
 export default function DashboardCard({ restaurants, display, photo }) {
   const classes = useStyles();
 
   const [superDislike, setSuperDislike] = React.useState(false);
+  const [stars, setStars] = React.useState(1);
 
   const handleSuperDislikeClick = () => {
     setSuperDislike(!superDislike);
   };
 
   let name = '';
-  let ratings;
+  let rating;
   let vicinity;
 
   if (restaurants[display]) {
-    [name, ratings, vicinity] = [
+    [name, rating, vicinity] = [
       restaurants[display].name,
-      restaurants[display].ratings,
+      restaurants[display].rating,
       restaurants[display].vicinity,
     ];
+    if(stars !== restaurants[display].rating) setStars(restaurants[display].rating)
   }
-
+  
   return (
     <Card className={classes.root}>
       <CardActionArea className={classes.content}>
         <CardMedia
+          className={classes.media}
           component="img"
           alt="Restaurant Photo"
           image={photo}
@@ -61,8 +69,14 @@ export default function DashboardCard({ restaurants, display, photo }) {
           <Typography gutterBottom variant="h5" component="h2">
             {name}
           </Typography>
+          <Box component="fieldset" mb={3} borderColor="transparent">
+          <Rating
+          name="simple-controlled"
+          value={stars}
+          precision={0.25}
+        />
+          </Box>
           <Typography variant="body2" color="textSecondary" component="p">
-            {ratings}
             {vicinity}
           </Typography>
         </CardContent>
