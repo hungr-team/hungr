@@ -10,6 +10,8 @@ const cookieSession = require('cookie-session');
 require('./oauth');
 const passportHttp = require('passport-http');
 const logout = require('express-passport-logout');
+const cors = require('cors');
+app.use(cors());
 
 const PORT = 3000;
 
@@ -40,15 +42,10 @@ const isLoggedIn = (req, res, next) => {
 // oauth related routes with corresponding middleware
 app.get('/failed', (req, res) => res.send('Login failed'));
 
-app.get(
-  '/loggedIn',
-  isLoggedIn,
-
-  (req, res) => {
-    //console.log(req.user);
-    return res.send(`Welcome ${req.user.displayName}`);
-  }
-);
+app.get('/loggedIn', isLoggedIn, (req, res) => {
+  console.log(req.user);
+  res.send(`Welcome ${req.user.displayName}`);
+});
 
 app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
