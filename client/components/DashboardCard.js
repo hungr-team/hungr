@@ -36,25 +36,34 @@ export default function DashboardCard({ restaurants, display, photo }) {
     setSuperDislike(!superDislike);
   };
 
-  let title = '';
+  let name = '';
+  let ratings;
+  let vicinity;
 
-  if (restaurants[display]) title = restaurants[display].name;
+  if (restaurants[display]) {
+    [name, ratings, vicinity] = [
+      restaurants[display].name,
+      restaurants[display].ratings,
+      restaurants[display].vicinity,
+    ];
+  }
 
   return (
     <Card className={classes.root}>
       <CardActionArea className={classes.content}>
         <CardMedia
           component="img"
-          alt="Rest Photo"
+          alt="Restaurant Photo"
           image={photo}
-          title="Rest Photo"
+          title="Restaurant Photo"
         />
         <CardContent className={classes.content}>
           <Typography gutterBottom variant="h5" component="h2">
-            {title}
+            {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            ratings vicinity miles away
+            {ratings}
+            {vicinity}
           </Typography>
         </CardContent>
       </CardActionArea>
