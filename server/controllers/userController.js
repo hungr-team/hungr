@@ -7,7 +7,7 @@ userController.addUser = async (req, res, next) => {
   const password = req.body.password;
   // const username = 'jackie';
   // const password = 'douglass';
-  const queryStr = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
+  const queryStr = `INSERT INTO users (username, password) SELECT DISTINCT '${username}', '${password}' WHERE '${username}' NOT IN (SELECT username FROM users)`;
   try {
     await db.query(queryStr);
     return next();
