@@ -64,7 +64,7 @@ export default function Dashboard() {
 
   const fetchdata = (latitude, longitude) => {
     setDisplay(0);
-    console.log('fetching restaurant');
+    
     let next = `&pagetoken=${next_page_token}`;
     fetch(
       `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs${next}`,
@@ -78,13 +78,11 @@ export default function Dashboard() {
       .then(data => data.json())
       .then(data => {
         //shuffling 20 arrays of restaurants and storing them in restaurants state
-        console.log(data);
         const shuffledRestaurants = shuffle(data.results);
         setRestaurants(shuffledRestaurants);
         //fetching using the photo reference
         fetchPhoto(shuffledRestaurants[display].photos[0].photo_reference);
         //storing next page token
-        console.log('this is next token', data.next_page_token);
         data.next_page_token
           ? setNext_page_token(data.next_page_token)
           : setEndOfList(true);
@@ -118,29 +116,26 @@ export default function Dashboard() {
   const [next_page_token, setNext_page_token] = React.useState('');
 
   const handleLikesClick = event => {
-    console.log(endOfList, display);
     //when reaching end of array fetch new page
     display === 18 ? fetchdata(coords[0], coords[1]) : setDisplay(display + 1);
     //if clicking on right side of screen set likes to true
     if (event.clientX > window.innerWidth / 2) setLikes(true);
-
     try {
       fetchPhoto(restaurants[display + 1].photos[0].photo_reference);
     } catch (error) {
-      console.log(restaurants, display, next_page_token);
       console.log('error fetching photo');
     }
   };
 
   return (
     <Paper className={classes.root} onClick={handleLikesClick}>
-      <ThumbDownIcon />
+      <ThumbDownIcon fontSize="large" />
       <DashboardCard
         restaurants={restaurants}
         display={display}
         photo={photo}
       />
-      <FavoriteBorderIcon />
+      <FavoriteBorderIcon fontSize="large" />
     </Paper>
   );
 }
