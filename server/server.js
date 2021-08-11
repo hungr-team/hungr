@@ -30,7 +30,7 @@ app.use(passport.session());
 
 // function validating if users are logged in
 const isLoggedIn = (req, res, next) => {
-  if (req.user) {
+  if (req.user || res.cookie) {
     next();
   } else {
     res.sendStatus(401);
@@ -55,9 +55,20 @@ app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 app.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/signIn' }),
+
+  function (req, res, next) {
+    console.log(req.user);
+    req.body.username = req.user._json.given_name;
+    req.body.password = req.user._json.sub;
+    return next();
+  },
+  userController.findUser,
   function (req, res) {
-    console.log(req.user.provider);
-    res.redirect('/');
+    if (res.locals.userFound) {
+      res.redirect('/');
+    } else {
+      res.redirect('/signUp');
+    }
   }
 );
 
@@ -66,7 +77,8 @@ app.get('/logOut', (req, res) => {
   // req.session = null;
   delete req.user;
   req.logout();
-
+  delete res.cookie;
+  res.clearCookie('username');
   res.redirect('/signIn');
 });
 

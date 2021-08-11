@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsList from './SettingMenu';
 import HistoryList from './HistoryList';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 
-const NavBar = () => {
+const NavBar = (props) => {
   const [user, setUser] = useState('');
   const [setting, setSetting] = useState('');
   const [radius, setRadius] = useState('');
@@ -39,20 +40,26 @@ const NavBar = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
           <IconButton
-            edge="start"
+            edge='start'
             className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
+            color='inherit'
+            aria-label='menu'
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            USER NAME
+          <Typography variant='h6' className={classes.title}>
+            {props.userName ? (
+              props.userName
+            ) : (
+              <Link style={{ color: 'white' }} href='/signIn'>
+                Sign In
+              </Link>
+            )}
           </Typography>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant='h4' className={classes.title}>
             HUNGR
           </Typography>
           <HistoryList />
