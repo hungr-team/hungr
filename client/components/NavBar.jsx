@@ -60,7 +60,7 @@ const NavBar = () => {
     loggedIn === true ? (
       <Link href='/logOut'>Log Out</Link>
     ) : (
-      <Link href='/signIn'>Sign In</Link>
+      <Link href='/'>Sign In</Link>
     ),
   ];
 

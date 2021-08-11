@@ -105,7 +105,7 @@ export default function SignIn() {
       .then((res) => {
         console.log(res);
         if (res === true) {
-          history.push('/');
+          history.push('/dashboard');
         } else {
           //let user know they fucked up
           setMessage({ msg: 'Incorrect Login', key: Math.random() });
