@@ -26,6 +26,8 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "cors": "^2.8.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "express": "^4.17.1",
     "html-webpack-plugin": "^5.3.2",
     "nodemon": "^2.0.12",

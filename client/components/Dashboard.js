@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import DashboardCard from './DashboardCard.js';
 
@@ -208,7 +208,7 @@ export default function Dashboard() {
         display={display}
         photo={photo}
       />
-      <FavoriteBorderIcon fontSize='large' />
+      <FavoriteIcon fontSize='large' />
     </Paper>
   );
 }
