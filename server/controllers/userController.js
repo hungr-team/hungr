@@ -2,20 +2,19 @@ const db = require('../models/hungrModel');
 
 const userController = {};
 
-userController.addUser = (req, res, next) => {
-  // const username = req.body.username;
-  // const password = req.body.password;
-  const username = 'jackie';
-  const password = 'douglass';
+userController.addUser = async (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  // const username = 'jackie';
+  // const password = 'douglass';
   const queryStr = `INSERT INTO users (username, password) VALUES ('${username}', '${password}')`;
-  db.query(queryStr)
-    .then((response) => {
-      console.log('User added to database');
-      return next();
-    })
-    .catch((err) => {
-      console.log('Error in adding user to db: ', err);
-    });
+  try {
+    await db.query(queryStr);
+    return next();
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
 };
 // userController.addUser();
 
