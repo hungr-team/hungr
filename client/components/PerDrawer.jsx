@@ -149,8 +149,8 @@ export default function PersistentDrawerLeft({ menulist, userName }) {
         <Divider />
         <List>
           {menulist.map((text, index) => (
-            <ListItem button key={index} userName ={userName}>
-              <ListItemText primary={text}  />
+            <ListItem button key={index} userName={userName}>
+              <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>

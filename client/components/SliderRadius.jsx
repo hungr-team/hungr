@@ -13,9 +13,7 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function DiscreteSlider({userName,sliderUpdate}) {
- 
-
+export default function DiscreteSlider({ userName, sliderUpdate }) {
   const classes = useStyles();
   // useEffect(() => {
   //   let cookie = document.cookie;
@@ -31,24 +29,22 @@ export default function DiscreteSlider({userName,sliderUpdate}) {
   // }, []);
 
   //update Radius Request
- 
 
+  // fetch("http://localhost:3000/updateSettings", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ username: userName, radius }),
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log("Success:", data);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //   });
 
-    // fetch("http://localhost:3000/updateSettings", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ username: userName, radius }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Success:", data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
- 
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-small-steps" gutterBottom>
