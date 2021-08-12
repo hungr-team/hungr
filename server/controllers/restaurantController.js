@@ -1,9 +1,12 @@
+/* eslint-disable prefer-destructuring */
 const db = require('../models/hungrModel');
 
 const restaurantController = {};
 
 // add restaurant
 restaurantController.addRestaurant = async (req, res, next) => {
+  console.log('hit add restaurant');
+  console.log(req.body);
   const restaurantName = req.body.restaurantName;
   const address = req.body.address;
   // only adds if it's not already existing
@@ -20,6 +23,7 @@ restaurantController.addRestaurant = async (req, res, next) => {
 // add restaurant to liked
 restaurantController.addLikedRestaurant = async (req, res, next) => {
   // add to liked restaurants a rest id and user id
+  console.log(req.body);
   const username = req.body.username;
   const restaurant = req.body.restaurantName;
   const address = req.body.address;
@@ -52,12 +56,15 @@ restaurantController.addLikedRestaurant = async (req, res, next) => {
 restaurantController.getLikedRestaurants = async (req, res, next) => {
   // inner join to just get list of liked restaurants
   const username = req.body.username;
-  const getLikesQueryStr = `SELECT r.name FROM liked_restaurants br INNER JOIN users u ON br.user_id=u._id INNER JOIN restaurants r ON r._id=br.restaurant_id WHERE u.username='${username}'`;
+  const getLikesQueryStr = `SELECT r.name, r.address FROM liked_restaurants br INNER JOIN users u ON br.user_id=u._id INNER JOIN restaurants r ON r._id=br.restaurant_id WHERE u.username='${username}'`;
   try {
     const likedRestaurantRows = await db.query(getLikesQueryStr);
     const likedRestaurants = [];
     for (let i = 0; i < likedRestaurantRows.rows.length; i += 1) {
-      likedRestaurants.push(likedRestaurantRows.rows[i].name);
+      likedRestaurants.push({
+        name: likedRestaurantRows.rows[i].name,
+        address: likedRestaurantRows.rows[i].address,
+      });
     }
     console.log(likedRestaurants);
     res.locals.likedRestaurants = likedRestaurants;
@@ -70,6 +77,7 @@ restaurantController.getLikedRestaurants = async (req, res, next) => {
 
 // add restaurant to blocked
 restaurantController.addBlockedRestaurant = async (req, res, next) => {
+  console.log('HIT ADD BLOCKED', req.body);
   const username = req.body.username;
   const restaurant = req.body.restaurantName;
   const address = req.body.address;

@@ -2,14 +2,46 @@ const db = require('../models/hungrModel');
 
 const userController = {};
 
+userController.findUser = async (req, res, next) => {
+  const findUser = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
+  // const findUser = `SELECT * FROM users`;
+  res.locals.userFound = false;
+  db.query(findUser)
+    .then((result) => {
+      userFound = true;
+      console.log('20 ', result.rows);
+      if (result.rows.length > 0) {
+        res.locals.userFound = true;
+        res.cookie('username', req.body.username);
+      }
+      return next();
+    })
+    .catch((err) => {
+      console.log('24 err 14 user controller ', err);
+      res.locals.userFound = false;
+      return next();
+    });
+};
+
 userController.addUser = async (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+
+  console.log(username, password);
+
+  if (res.locals.userFound) {
+    req.body = { error: 'user already exists' };
+    return next();
+  }
+
+  //return next();
   // const username = 'jackie';
   // const password = 'douglass';
+
   const queryStr = `INSERT INTO users (username, password) SELECT DISTINCT '${username}', '${password}' WHERE '${username}' NOT IN (SELECT username FROM users)`;
   try {
     await db.query(queryStr);
+    res.cookie('username', req.body.username);
     return next();
   } catch (err) {
     console.log(err);
