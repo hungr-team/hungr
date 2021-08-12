@@ -68,10 +68,10 @@ Simply fork our repo, clone it to your machine, run 'npm i' and then 'npm start'
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a free API Key at [https://developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 2. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/hungr-team/hungr.git
    ```
 3. Install NPM packages
    ```sh
