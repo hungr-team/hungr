@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/hungr-team/hungr">
-    <img src="https://user-images.githubusercontent.com/73081204/129232189-3ae5915e-3f57-4711-b0ff-fd912d24b34b.png" alt="Logo" width="100" height="200">
+    <img src="https://user-images.githubusercontent.com/73081204/129232189-3ae5915e-3f57-4711-b0ff-fd912d24b34b.png" alt="Logo" width="150" height="200">
   </a>
 
   <h3 align="center">Hungr</h3>
