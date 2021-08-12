@@ -30,7 +30,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DashboardCard({ restaurants, display, photo }) {
+export default function DashboardCard({
+  restaurants,
+  display,
+  photo,
+  username,
+}) {
   const classes = useStyles();
 
   const [superDislike, setSuperDislike] = React.useState(false);
@@ -44,14 +49,14 @@ export default function DashboardCard({ restaurants, display, photo }) {
       headers: { 'Content-Type': 'application/json' },
       // change username to props.username after login
       body: JSON.stringify({
-        username: 'jackie',
+        username: username,
         restaurantName: name,
         address,
       }),
     };
     fetch('/block', blockFetchParams)
-      .then(res => res.json())
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .catch((err) => console.error(err));
     setSuperDislike(!superDislike);
   };
 

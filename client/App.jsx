@@ -1,13 +1,23 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import MainPage from './pages/MainPage';
+import FavoritesPage from './pages/FavoritesPage';
+import BlockedPage from './pages/BlockedPage';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
 const App = () => (
   <Router>
     <Switch>
-      <Route exact path='/'>
+      <Route exact path='/' component={SignIn} />
+      <Route path='/favorites' component={FavoritesPage} />
+      <Route path='/blocks' component={BlockedPage} />
+      <Route path='/signUp' component={SignUp} />
+      <Route path='/dashboard' component={MainPage} />
+      {/* <Route path="/signup">
+              <SignUp />
+            </Route> */}
+      {/* <Route exact path='/'>
         <MainPage />
       </Route>
       <Route path='/signUp'>
@@ -15,7 +25,7 @@ const App = () => (
       </Route>
       <Route path='/signIn'>
         <SignIn />
-      </Route>
+      </Route> */}
     </Switch>
   </Router>
 );

@@ -51,7 +51,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
 app.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/signIn' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
 
   function (req, res, next) {
     console.log(req.user);
@@ -63,13 +63,13 @@ app.get(
   function (req, res, next) {
     if (res.locals.userFound) {
       console.log('user found');
-      res.redirect('/');
+      res.redirect('/dashboard');
     }
     next();
   },
   userController.addUser,
   function (req, res) {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.redirect('/dashboard');
   }
 );
 
@@ -80,7 +80,7 @@ app.get('/logOut', (req, res) => {
   req.logout();
   delete res.cookie;
   res.clearCookie('username');
-  res.redirect('/signIn');
+  res.redirect('/');
 });
 
 //userController.findUser,
@@ -150,9 +150,13 @@ app.post('/getLikes', restaurantController.getLikedRestaurants, (req, res) => {
   res.status(200).json(res.locals.likedRestaurants);
 });
 
-app.post('/removeLike', restaurantController.removeLikedRestaurant, (req, res) => {
-  res.sendStatus(200);
-});
+app.post(
+  '/removeLike',
+  restaurantController.removeLikedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 app.post(
   '/block',
@@ -163,16 +167,25 @@ app.post(
   }
 );
 
-app.post('/getBlocks', restaurantController.getBlockedRestaurants, (req, res) => {
-  res.status(200).json(res.locals.blockedRestaurants);
-});
+app.post(
+  '/getBlocks',
+  restaurantController.getBlockedRestaurants,
+  (req, res) => {
+    res.status(200).json(res.locals.blockedRestaurants);
+  }
+);
 
-app.post('/removeBlock', restaurantController.removeBlockedRestaurant, (req, res) => {
-  res.sendStatus(200);
-});
+app.post(
+  '/removeBlock',
+  restaurantController.removeBlockedRestaurant,
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
-app.get(['/', '/settings', '/lists'], (req, res) =>
-  res.status(200).sendFile(path.join(__dirname, '../index.html'))
+app.get(
+  ['/', '/settings', '/lists', '/favorites', '/blocks', '/dashboard'],
+  (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html'))
 );
 
 /**
