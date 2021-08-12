@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
@@ -14,19 +14,32 @@ function valuetext(value) {
 }
 
 export default function DiscreteSlider() {
+  const [user, setUser] = useState("");
+
   const classes = useStyles();
+  useEffect(() => {
+    let cookie = document.cookie;
+    if (cookie) {
+      cookie = cookie.split("=");
+      let name = cookie[1];
+      //name = name.substring(1);
+      console.log("hihihi", user, name);
+      setUser(name);
+    }
+
+    return;
+  }, []);
 
   //update Radius Request
-
   const updateRadius = (val) => {
     const radius = val;
-   
+
     fetch("http://localhost:3000/updateSettings", {
-      method: "POST", 
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({username:"Theingi Deva", radius}),
+      body: JSON.stringify({ username: user, radius }),
     })
       .then((response) => response.json())
       .then((data) => {

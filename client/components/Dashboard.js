@@ -66,7 +66,7 @@ export default function Dashboard() {
     setDisplay(0);
 
     fetch(
-      `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs&pagetoken=${next_page_token}`,
+      `/place-api-nearby?location=${latitude},${longitude}&radius=updateRadius &type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs&pagetoken=${next_page_token}`,
       {
         method: 'GET',
         headers: {
