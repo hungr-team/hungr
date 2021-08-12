@@ -38,7 +38,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Are you tired of being paralyzed by indecision? There are too many restaurants for the human mind to decide between. Enter Hungr. Hungr automatically sources every restaurant around you in a defined radius, and brings the choices to you. 
+Are you tired of being paralyzed by indecision? Does the thought of deciding where to eat make your head spin? There are too many restaurants for the human mind to decide between. Enter Hungr. Hungr automatically sources every restaurant around you in a defined radius, and brings the choices to you. 
 
 Once all files are installed and your API key is generated from Google, simple run 'npm start' in your terminal of choice. Almost immediately, you will be transported to a magical world where you indecision will disappear. 
 
