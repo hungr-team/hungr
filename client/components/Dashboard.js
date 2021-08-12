@@ -36,7 +36,9 @@ const shuffle = (array) => {
   return array;
 };
 
-export default function Dashboard() {
+export default function Dashboard({updatedRadius}) {
+
+
   useEffect(() => {
     let latitude;
     let longitude;
@@ -60,13 +62,13 @@ export default function Dashboard() {
     };
 
     navigator.geolocation.getCurrentPosition(success, error, options);
-  }, []);
+  }, [updatedRadius]);
 
   const fetchdata = (latitude, longitude) => {
     setDisplay(0);
 
     fetch(
-      `/place-api-nearby?location=${latitude},${longitude}&radius=5000&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs&pagetoken=${next_page_token}`,
+      `/place-api-nearby?location=${latitude},${longitude}&radius=${updatedRadius}&type=restaurant&key=AIzaSyASed7g1JyWUL7f61y8836gxCpPbolCSJs&pagetoken=${next_page_token}`,
       {
         method: 'GET',
         headers: {

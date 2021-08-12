@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ResponsiveDrawer from './ResDrawerMenu';
-import Slider from './SliderRadius';
-import Link from '@material-ui/core/Link';
-
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Slider from "./SliderRadius";
+import Link from "@material-ui/core/Link";
+import PersistentDrawerLeft from "./PerDrawer";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 
-const NavBar = () => {
-  const [user, setUser] = useState('default user');
+const NavBar = ({ sliderUpdate }) => {
+  const [user, setUser] = useState("");
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [loggedIn, setLogIn] = useState(false);
 
@@ -34,10 +33,10 @@ const NavBar = () => {
   useEffect(() => {
     let cookie = document.cookie;
     if (cookie) {
-      cookie = cookie.split('=');
+      cookie = cookie.split("=");
       let name = cookie[1];
       //name = name.substring(1);
-      console.log(user, name);
+      console.log("hihihi", user, name);
       setUser(name);
       setLogIn(true);
     }
@@ -45,28 +44,21 @@ const NavBar = () => {
     return;
   }, []);
 
-  const classes = useStyles();
-  useEffect(() => {
-    console.log('inside useEffct');
-    fetch('http://localhost:3000/loggedIn')
-      .then((response) => response.json())
-      .then((data) => console.log('DATAAA', data));
-  }, []);
-
   const menuItems = [
-    'Like',
-    'Dislike',
-    <Slider />,
+    user,
+    "Favorite",
+    "Dislike",
+    <Slider userName={user} sliderUpdate={sliderUpdate} />,
     loggedIn === true ? (
-      <Link href='/logOut'>Log Out</Link>
+      <Link href="/logOut">Log Out</Link>
     ) : (
-      <Link href='/'>Sign In</Link>
+      <Link href="/">Sign In</Link>
     ),
   ];
 
   return (
     <div>
-      <ResponsiveDrawer menulist={menuItems} userName={user} />
+      <PersistentDrawerLeft menulist={menuItems} userName={user} />
     </div>
   );
 };
