@@ -46,7 +46,7 @@ const NavBar = ({ sliderUpdate }) => {
 
   const menuItems = [
     user,
-    "Like",
+    "Favorite",
     "Dislike",
     <Slider userName={user} sliderUpdate={sliderUpdate} />,
     loggedIn === true ? (
