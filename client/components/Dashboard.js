@@ -36,9 +36,7 @@ const shuffle = (array) => {
   return array;
 };
 
-export default function Dashboard({updatedRadius}) {
-
-
+export default function Dashboard({ updatedRadius }) {
   useEffect(() => {
     let latitude;
     let longitude;
@@ -144,7 +142,6 @@ export default function Dashboard({updatedRadius}) {
       console.log('error fetching photo');
     }
   };
-
   useEffect(() => {
     let cookie = document.cookie;
     if (cookie) {

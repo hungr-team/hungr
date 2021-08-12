@@ -114,7 +114,7 @@ app.post(
 app.post(
   '/updateSettings',
   userController.updateRadius,
-  userController.addPreferences,
+  // userController.addPreferences,
   (req, res) => {
     res.sendStatus(200);
   }
