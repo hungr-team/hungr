@@ -48,23 +48,22 @@ Will you eat at Subway tonight? Or maybe Burger King? How about pizza? With Hung
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* [Node](https://nodejs.org/en/)
+* [PostgreSQL](https://www.elephantsql.com/)
+* [React](https://reactjs.org/)
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Simply fork our repo, clone it to your machine, run 'npm i' and then 'npm start'.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+
 * npm
+* being hungry
   ```sh
   npm install npm@latest -g
   ```
@@ -81,14 +80,6 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 4. Enter your API key
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
