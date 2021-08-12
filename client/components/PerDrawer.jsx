@@ -19,7 +19,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
   root: {

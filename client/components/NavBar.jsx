@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 
-const NavBar = () => {
+const NavBar = ({ sliderUpdate }) => {
   const [user, setUser] = useState("");
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [loggedIn, setLogIn] = useState(false);
@@ -48,7 +48,7 @@ const NavBar = () => {
     user,
     "Like",
     "Dislike",
-    <Slider />,
+    <Slider userName={user} sliderUpdate={sliderUpdate} />,
     loggedIn === true ? (
       <Link href="/logOut">Log Out</Link>
     ) : (

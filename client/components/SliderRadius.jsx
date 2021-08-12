@@ -13,43 +13,42 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function DiscreteSlider() {
-  const [user, setUser] = useState("");
+export default function DiscreteSlider({userName,sliderUpdate}) {
+ 
 
   const classes = useStyles();
-  useEffect(() => {
-    let cookie = document.cookie;
-    if (cookie) {
-      cookie = cookie.split("=");
-      let name = cookie[1];
-      //name = name.substring(1);
-      console.log("hihihi", user, name);
-      setUser(name);
-    }
+  // useEffect(() => {
+  //   let cookie = document.cookie;
+  //   if (cookie) {
+  //     cookie = cookie.split("=");
+  //     let name = cookie[1];
+  //     //name = name.substring(1);
+  //     console.log("hihihi", user, name);
+  //     setUser(name);
+  //   }
 
-    return;
-  }, []);
+  //   return;
+  // }, []);
 
   //update Radius Request
-  const updateRadius = (val) => {
-    const radius = val;
+ 
 
-    fetch("http://localhost:3000/updateSettings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: user, radius }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
 
+    // fetch("http://localhost:3000/updateSettings", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ username: userName, radius }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Success:", data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
+ 
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-small-steps" gutterBottom>
@@ -64,7 +63,7 @@ export default function DiscreteSlider() {
         min={0}
         max={20}
         valueLabelDisplay="auto"
-        getAriaValueText={(value) => updateRadius(value)}
+        getAriaValueText={(value) => sliderUpdate(value)}
       />
     </div>
   );
