@@ -1,9 +1,10 @@
+![tommys logo]()
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/hungr-team/hungr">
-    <img src="" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/73081204/129232189-3ae5915e-3f57-4711-b0ff-fd912d24b34b.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
